@@ -59,11 +59,9 @@ int main()
         cin >> botOrPerson;
         cout << endl;
 
-        if (cin.fail() || (botOrPerson != 0 && botOrPerson != 1))
+        if (botOrPerson < 0 || botOrPerson > 1)
         {
             cout << "Invalid answer! Please enter 0 or 1." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         else
         {
@@ -74,7 +72,7 @@ int main()
                 cout << endl;
                 cout << "Let's start! Choose Rock, Paper, or Scissor!" << endl;
 
-                while (player1Win == false || botWin == false)
+                while (player1Win == false && botWin == false)
                 {
 
                     cout << endl;
@@ -88,11 +86,9 @@ int main()
                     cout << endl;
                     cout << endl;
 
-                    if (cin.fail() || (player1 != 0 && player1 != 1 && player1 != 2))
+                    if (player1 < 0 || player1 > 2)
                     {
                         cout << "Invalid answer! Please enter 0, 1 or 2." << endl;
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     }
                     else
                     {
@@ -142,12 +138,7 @@ int main()
                             cout << "Bot Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             botWin = true;
-
-                            return 0;
                         }
                         else if (player1 == 0 && bot == 2)
                         {
@@ -155,12 +146,7 @@ int main()
                             cout << "Player Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             player1Win = true;
-
-                            return 0;
                         }
                         else if (player1 == 1 && bot == 0)
                         {
@@ -168,12 +154,7 @@ int main()
                             cout << "Player Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             player1Win = true;
-
-                            return 0;
                         }
                         else if (player1 == 1 && bot == 2)
                         {
@@ -181,12 +162,7 @@ int main()
                             cout << "Bot Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             botWin = true;
-
-                            return 0;
                         }
                         else if (player1 == 2 && bot == 0)
                         {
@@ -194,12 +170,7 @@ int main()
                             cout << "Bot Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             botWin = true;
-
-                            return 0;
                         }
                         else if (player1 == 2 && bot == 1)
                         {
@@ -207,12 +178,7 @@ int main()
                             cout << "Player Wins!!!" << endl;
                             cout << endl;
 
-                            cout << "Thanks for playing!!!" << endl;
-                            cout << endl;
-
                             player1Win = true;
-
-                            return 0;
                         }
                     }
                 }
@@ -242,11 +208,9 @@ int main()
                         cout << endl;
                         cout << endl;
 
-                        if (cin.fail() || (player1 != 0 && player1 != 1 && player1 != 2))
+                        if (player1 < 0 || player1 > 2)
                         {
                             cout << "Invalid answer Player 1! Please enter 0, 1, or 2." << endl;
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         }
                         else
                         {
@@ -270,11 +234,9 @@ int main()
                         cout << endl;
                         cout << endl;
 
-                        if (cin.fail() || (player2 != 0 && player2 != 1 && player2 != 2))
+                        if (player2 < 0 || player2 > 2)
                         {
                             cout << "Invalid answer Player 2! Please enter 0, 1, or 2." << endl;
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         }
                         else
                         {
@@ -324,12 +286,8 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player2Win = true;
 
-                        return 0;
                     }
                     else if (player1 == 0 && player2 == 2)
                     {
@@ -337,12 +295,8 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player1Win = true;
 
-                        return 0;
                     }
                     else if (player1 == 1 && player2 == 0)
                     {
@@ -350,12 +304,8 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player1Win = true;
 
-                        return 0;
                     }
                     else if (player1 == 1 && player2 == 2)
                     {
@@ -363,12 +313,8 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player2Win = true;
 
-                        return 0;
                     }
                     else if (player1 == 2 && player2 == 0)
                     {
@@ -376,12 +322,8 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player2Win = true;
 
-                        return 0;
                     }
                     else if (player1 == 2 && player2 == 1)
                     {
@@ -389,25 +331,26 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        cout << "Thanks for playing!!!" << endl;
-                        cout << endl;
-
                         player1Win = true;
 
-                        return 0;
                     }
                 }
             }
         }
 
-        if (player1Win == true || player2Win == true || botWin)
+        if (player1Win == true || player2Win == true || botWin == true)
         {
-
             cout << "\nDo you want to play again? (y/n): ";
             cin >> playAgain;
             cout << endl;
+
+            player1Win = false;
+            player2Win = false;
+            botWin = false;
         }
     }
 
+    cout << "Thanks for playing!!!" << endl;
+    cout << endl;
     return 0;
 }
