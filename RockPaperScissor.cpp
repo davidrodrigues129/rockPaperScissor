@@ -10,14 +10,25 @@ int getHiddenInteger()
     std::string hiddenInput;
     char ch;
 
-    while ((ch = _getch()) != '\r')
-    { // Read input until Enter key is pressed
-        if (isdigit(ch))
-        {                      // Only accept digits
-            hiddenInput += ch; // Store digit
-            cout << '*';       // Display an asterisk for each digit
+    do
+    {
+        hiddenInput.clear(); // Clear previous input
+
+        while ((ch = _getch()) != '\r')
+        { // Read input until Enter key is pressed
+            if (isdigit(ch))
+            {                      // Only accept digits
+                hiddenInput += ch; // Store digit
+                cout << '*';       // Display an asterisk for each digit
+            }
         }
-    }
+
+        if (hiddenInput.empty())
+        {
+            cout << "\nNo digits entered. Please try again.\n\nPlayer >> ";
+        }
+
+    } while (hiddenInput.empty()); // Repeat until valid input is entered
 
     return std::stoi(hiddenInput); // Convert string to integer
 }
@@ -25,7 +36,7 @@ int getHiddenInteger()
 void printSimpleScoreboardPlayerVsBot(int score1, int score2)
 {
     cout << "|-------------------|" << endl;
-    cout << "| Player 1: " << score1 << "       |" << endl;
+    cout << "| Player: " << score1 << "         |" << endl;
     cout << "| Bot: " << score2 << "            |" << endl;
     cout << "|-------------------|" << endl;
     cout << endl;
@@ -53,6 +64,10 @@ int main()
     int bot = 0;
 
     bool draw = false;
+
+    bool exit = false;
+
+    bool invalid = false;
 
     bool player1Win = false;
     bool player2Win = false;
@@ -139,16 +154,16 @@ int main()
                 while (botScore < wins && player1Score < wins)
                 {
 
-                    if (botScore == 0 && player1Score == 0 && draw == false)
+                    if (botScore == 0 && player1Score == 0 && draw == false && invalid == false)
                     {
                         cout << "Let's start! Choose Rock, Paper, or Scissor!" << endl;
                     }
-                    else if (draw == true)
+                    else if (draw == true && invalid == false)
                     {
                         cout << "Let's go again! Choose Rock, Paper, or Scissor!" << endl;
                         draw = false;
                     }
-                    else
+                    else if (invalid == false)
                     {
                         cout << "Let's go again! Choose Rock, Paper, or Scissor!" << endl;
                     }
@@ -167,9 +182,12 @@ int main()
                     if (player1 < 0 || player1 > 2)
                     {
                         cout << "Invalid answer! Please enter 0, 1 or 2." << endl;
+                        invalid = true;
                     }
                     else
                     {
+                        invalid = false;
+
                         // Generate a single random number
                         bot = dist(gen); // Generate random number in range [0, 2]
 
@@ -300,10 +318,61 @@ int main()
             case 1:
                 cout << "You chose to play against a Person!" << endl;
                 cout << endl;
-                cout << "Let's start! Player 1, choose Rock, Paper, or Scissor!" << endl;
 
-                while (player1Win == false && player2Win == false)
+                cout << "Are you going to play a Best of 1, Best of 3 or Best of 5? " << endl;
+
+                while (bestOf != 1 && bestOf != 3 && bestOf != 5)
                 {
+                    cout << endl;
+                    cout << "1 - Best of 1" << endl;
+                    cout << "3 - Best of 3" << endl;
+                    cout << "5 - Best of 5" << endl;
+                    cout << endl;
+
+                    cout << ">> ";
+                    cin >> bestOf;
+                    cout << endl;
+
+                    if (bestOf != 1 && bestOf != 3 && bestOf != 5)
+                    {
+                        cout << "Invalid answer! Please enter 1, 3 or 5" << endl;
+                    }
+                    else
+                    {
+                        switch (bestOf)
+                        {
+                        case 1:
+                            wins = 1;
+                            break;
+                        case 3:
+                            wins = 2;
+                            break;
+                        case 5:
+                            wins = 3;
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
+                }
+
+                while (player1Score < wins && player2Score < wins)
+                {
+                    if (player1Score == 0 && player2Score == 0 && draw == false)
+                    {
+                        cout << "Let's start! Player 1, choose Rock, Paper, or Scissor!" << endl;
+                    }
+                    else if (draw == true)
+                    {
+                        cout << "Let's go again! Player 1, choose Rock, Paper, or Scissor!" << endl;
+                        draw = false;
+                    }
+                    else
+                    {
+                        cout << "Let's go again! Player 1, choose Rock, Paper, or Scissor!" << endl;
+                    }
+
                     bool validInput1 = false;
                     bool validInput2 = false;
 
@@ -355,6 +424,7 @@ int main()
                             validInput2 = true;
                         }
                     }
+
                     switch (player1)
                     {
                     case 0:
@@ -390,7 +460,12 @@ int main()
                     if (player1 == player2)
                     {
                         cout << endl;
-                        cout << "Draw! Let's play again! Player 1, choose Rock, Paper, or Scissor!" << endl;
+                        cout << "Draw!" << endl;
+                        cout << endl;
+
+                        draw = true;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 0 && player2 == 1)
                     {
@@ -398,7 +473,9 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        player2Win = true;
+                        player2Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 0 && player2 == 2)
                     {
@@ -406,7 +483,9 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        player1Win = true;
+                        player1Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 1 && player2 == 0)
                     {
@@ -414,7 +493,9 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        player1Win = true;
+                        player1Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 1 && player2 == 2)
                     {
@@ -422,7 +503,9 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        player2Win = true;
+                        player2Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 2 && player2 == 0)
                     {
@@ -430,7 +513,9 @@ int main()
                         cout << "Player 2 Wins!!!" << endl;
                         cout << endl;
 
-                        player2Win = true;
+                        player2Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                     else if (player1 == 2 && player2 == 1)
                     {
@@ -438,17 +523,56 @@ int main()
                         cout << "Player 1 Wins!!!" << endl;
                         cout << endl;
 
-                        player1Win = true;
+                        player1Score++;
+
+                        printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
                 }
+                if (player1Score == wins)
+                {
+                    cout << endl;
+                    cout << "Player 1 won the Series!!!" << endl;
+                    cout << endl;
+
+                    player1Win = true;
+                }
+                else if (player2Score == wins)
+                {
+                    cout << endl;
+                    cout << "Player 2 won the Series!!!" << endl;
+                    cout << endl;
+
+                    player2Win = true;
+                }
+
+                break;
             }
         }
 
         if (player1Win == true || player2Win == true || botWin == true)
         {
-            cout << "\nDo you want to play again? (y/n): ";
+            cout << "\nDo you want to play again? (y/n): " << endl;
+            cout << endl;
+            cout << ">> ";
             cin >> playAgain;
             cout << endl;
+
+            if (playAgain != 'y' && playAgain != 'Y' && playAgain != 'n' && playAgain != 'N')
+            {
+                while (exit == false)
+                {
+                    cout << "\nWrong value! You should enter either y/Y or n/N! Do you want to play again? (y/n): " << endl;
+                    cout << endl;
+                    cout << ">> ";
+                    cin >> playAgain;
+                    cout << endl;
+
+                    if (playAgain == 'y' || playAgain == 'Y' || playAgain == 'n' || playAgain == 'N')
+                    {
+                        exit = true;
+                    }
+                }
+            }
 
             player1Win = false;
             player2Win = false;
