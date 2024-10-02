@@ -5,32 +5,26 @@
 
 using namespace std;
 
-int getHiddenInteger()
+char getHiddenChar()
 {
-    std::string hiddenInput;
     char ch;
 
     do
     {
-        hiddenInput.clear(); // Clear previous input
+        ch = _getch(); // Get a single character
 
-        while ((ch = _getch()) != '\r')
-        { // Read input until Enter key is pressed
-            if (isdigit(ch))
-            {                      // Only accept digits
-                hiddenInput += ch; // Store digit
-                cout << '*';       // Display an asterisk for each digit
-            }
-        }
-
-        if (hiddenInput.empty())
+        if (!isalpha(ch)) // Check if it's an alphabetic character
         {
-            cout << "\nNo digits entered. Please try again.\n\nPlayer >> ";
+            std::cout << "\nInvalid input. Please enter an alphabetic character.\n\nPlayer >> ";
+        }
+        else
+        {
+            std::cout << '*'; // Display an asterisk for the entered character
         }
 
-    } while (hiddenInput.empty()); // Repeat until valid input is entered
+    } while (!isalpha(ch)); // Repeat until an alphabetic character is entered
 
-    return std::stoi(hiddenInput); // Convert string to integer
+    return ch; // Return the valid character
 }
 
 void printSimpleScoreboardPlayerVsBot(int score1, int score2)
@@ -59,8 +53,8 @@ int main()
     std::uniform_int_distribution<> dist(0, 2); // Range [0, 2]
 
     int botOrPerson = 0;
-    int player1 = 0;
-    int player2 = 0;
+    char player1Choise = '0';
+    char player2Choise = '0';
     int bot = 0;
 
     bool draw = false;
@@ -169,19 +163,19 @@ int main()
                     }
 
                     cout << endl;
-                    cout << "0 - Rock" << endl;
-                    cout << "1 - Paper" << endl;
-                    cout << "2 - Scissor" << endl;
+                    cout << "r/R - Rock" << endl;
+                    cout << "p/P - Paper" << endl;
+                    cout << "s/S - Scissor" << endl;
                     cout << endl;
 
                     cout << "Player >> ";
-                    player1 = getHiddenInteger();
+                    player1Choise = getHiddenChar();
                     cout << endl;
                     cout << endl;
 
-                    if (player1 < 0 || player1 > 2)
+                    if (player1Choise != 'r' && player1Choise != 'R' && player1Choise != 'p' && player1Choise != 'P' && player1Choise != 's' && player1Choise != 'S')
                     {
-                        cout << "Invalid answer! Please enter 0, 1 or 2." << endl;
+                        cout << "Invalid answer! Please enter r/R, p/P or s/S." << endl;
                         invalid = true;
                     }
                     else
@@ -191,15 +185,24 @@ int main()
                         // Generate a single random number
                         bot = dist(gen); // Generate random number in range [0, 2]
 
-                        switch (player1)
+                        switch (player1Choise)
                         {
-                        case 0:
+                        case 'r':
                             cout << "Player played: Rock" << endl;
                             break;
-                        case 1:
+                        case 'R':
+                            cout << "Player played: Rock" << endl;
+                            break;
+                        case 'p':
                             cout << "Player played: Paper" << endl;
                             break;
-                        case 2:
+                        case 'P':
+                            cout << "Player played: Paper" << endl;
+                            break;
+                        case 's':
+                            cout << "Player played: Scissor" << endl;
+                            break;
+                        case 'S':
                             cout << "Player played: Scissor" << endl;
                             break;
 
@@ -223,7 +226,7 @@ int main()
                             break;
                         }
 
-                        if (player1 == bot)
+                        if ((player1Choise == 'r' || player1Choise == 'R') && bot == 0)
                         {
                             cout << endl;
                             cout << "Draw!" << endl;
@@ -233,7 +236,27 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 0 && bot == 1)
+                        else if ((player1Choise == 'p' || player1Choise == 'P') && bot == 1)
+                        {
+                            cout << endl;
+                            cout << "Draw!" << endl;
+                            cout << endl;
+
+                            draw = true;
+
+                            printSimpleScoreboardPlayerVsBot(player1Score, botScore);
+                        }
+                        else if ((player1Choise == 's' || player1Choise == 'S') && bot == 2)
+                        {
+                            cout << endl;
+                            cout << "Draw!" << endl;
+                            cout << endl;
+
+                            draw = true;
+
+                            printSimpleScoreboardPlayerVsBot(player1Score, botScore);
+                        }
+                        else if ((player1Choise == 'r' || player1Choise == 'R') && bot == 1)
                         {
                             cout << endl;
                             cout << "Bot Wins!!!" << endl;
@@ -243,7 +266,7 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 0 && bot == 2)
+                        else if ((player1Choise == 'r' || player1Choise == 'R') && bot == 2)
                         {
                             cout << endl;
                             cout << "Player Wins!!!" << endl;
@@ -253,7 +276,7 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 1 && bot == 0)
+                        else if ((player1Choise == 'p' || player1Choise == 'P') && bot == 0)
                         {
                             cout << endl;
                             cout << "Player Wins!!!" << endl;
@@ -263,7 +286,7 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 1 && bot == 2)
+                        else if ((player1Choise == 'p' || player1Choise == 'P') && bot == 2)
                         {
                             cout << endl;
                             cout << "Bot Wins!!!" << endl;
@@ -273,7 +296,7 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 2 && bot == 0)
+                        else if ((player1Choise == 's' || player1Choise == 'S') && bot == 0)
                         {
                             cout << endl;
                             cout << "Bot Wins!!!" << endl;
@@ -283,7 +306,7 @@ int main()
 
                             printSimpleScoreboardPlayerVsBot(player1Score, botScore);
                         }
-                        else if (player1 == 2 && bot == 1)
+                        else if ((player1Choise == 's' || player1Choise == 'S') && bot == 1)
                         {
                             cout << endl;
                             cout << "Player Wins!!!" << endl;
@@ -379,19 +402,20 @@ int main()
                     while (!validInput1)
                     {
                         cout << endl;
-                        cout << "0 - Rock" << endl;
-                        cout << "1 - Paper" << endl;
-                        cout << "2 - Scissor" << endl;
+                        cout << "r/R - Rock" << endl;
+                        cout << "p/P - Paper" << endl;
+                        cout << "s/S - Scissor" << endl;
                         cout << endl;
 
                         cout << "Player 1 >> ";
-                        player1 = getHiddenInteger();
+                        player1Choise = getHiddenChar();
                         cout << endl;
                         cout << endl;
 
-                        if (player1 < 0 || player1 > 2)
+                        if (player1Choise != 'r' && player1Choise != 'R' && player1Choise != 'p' && player1Choise != 'P' && player1Choise != 's' && player1Choise != 'S')
                         {
-                            cout << "Invalid answer Player 1! Please enter 0, 1, or 2." << endl;
+                            cout << "Invalid answer! Please enter r/R, p/P or s/S." << endl;
+                            invalid = true;
                         }
                         else
                         {
@@ -405,19 +429,20 @@ int main()
                     {
 
                         cout << endl;
-                        cout << "0 - Rock" << endl;
-                        cout << "1 - Paper" << endl;
-                        cout << "2 - Scissor" << endl;
+                        cout << "r/R - Rock" << endl;
+                        cout << "p/P - Paper" << endl;
+                        cout << "s/S - Scissor" << endl;
                         cout << endl;
 
                         cout << "Player 2 >> ";
-                        player2 = getHiddenInteger();
+                        player2Choise = getHiddenChar();
                         cout << endl;
                         cout << endl;
 
-                        if (player2 < 0 || player2 > 2)
+                        if (player2Choise != 'r' && player2Choise != 'R' && player2Choise != 'p' && player2Choise != 'P' && player2Choise != 's' && player2Choise != 'S')
                         {
-                            cout << "Invalid answer Player 2! Please enter 0, 1, or 2." << endl;
+                            cout << "Invalid answer! Please enter r/R, p/P or s/S." << endl;
+                            invalid = true;
                         }
                         else
                         {
@@ -425,15 +450,24 @@ int main()
                         }
                     }
 
-                    switch (player1)
+                    switch (player1Choise)
                     {
-                    case 0:
+                    case 'r':
                         cout << "Player 1 played: Rock" << endl;
                         break;
-                    case 1:
+                    case 'R':
+                        cout << "Player 1 played: Rock" << endl;
+                        break;
+                    case 'p':
                         cout << "Player 1 played: Paper" << endl;
                         break;
-                    case 2:
+                    case 'P':
+                        cout << "Player 1 played: Paper" << endl;
+                        break;
+                    case 's':
+                        cout << "Player 1 played: Scissor" << endl;
+                        break;
+                    case 'S':
                         cout << "Player 1 played: Scissor" << endl;
                         break;
 
@@ -441,15 +475,24 @@ int main()
                         break;
                     }
 
-                    switch (player2)
+                    switch (player2Choise)
                     {
-                    case 0:
+                    case 'r':
                         cout << "Player 2 played: Rock" << endl;
                         break;
-                    case 1:
+                    case 'R':
+                        cout << "Player 2 played: Rock" << endl;
+                        break;
+                    case 'p':
                         cout << "Player 2 played: Paper" << endl;
                         break;
-                    case 2:
+                    case 'P':
+                        cout << "Player 2 played: Paper" << endl;
+                        break;
+                    case 's':
+                        cout << "Player 2 played: Scissor" << endl;
+                        break;
+                    case 'S':
                         cout << "Player 2 played: Scissor" << endl;
                         break;
 
@@ -457,7 +500,7 @@ int main()
                         break;
                     }
 
-                    if (player1 == player2)
+                    if (player1Choise == player2Choise)
                     {
                         cout << endl;
                         cout << "Draw!" << endl;
@@ -467,7 +510,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 0 && player2 == 1)
+                    else if ((player1Choise == 'r' || player1Choise == 'R') && (player2Choise == 'p' || player2Choise == 'P'))
                     {
                         cout << endl;
                         cout << "Player 2 Wins!!!" << endl;
@@ -477,7 +520,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 0 && player2 == 2)
+                    else if ((player1Choise == 'r' || player1Choise == 'R') && (player2Choise == 's' || player2Choise == 'S'))
                     {
                         cout << endl;
                         cout << "Player 1 Wins!!!" << endl;
@@ -487,7 +530,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 1 && player2 == 0)
+                    else if ((player1Choise == 'p' || player1Choise == 'P') && (player2Choise == 'r' || player2Choise == 'R'))
                     {
                         cout << endl;
                         cout << "Player 1 Wins!!!" << endl;
@@ -497,7 +540,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 1 && player2 == 2)
+                    else if ((player1Choise == 'p' || player1Choise == 'P') && (player2Choise == 's' || player2Choise == 'S'))
                     {
                         cout << endl;
                         cout << "Player 2 Wins!!!" << endl;
@@ -507,7 +550,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 2 && player2 == 0)
+                    else if ((player1Choise == 's' || player1Choise == 'S') && (player2Choise == 'r' || player2Choise == 'R'))
                     {
                         cout << endl;
                         cout << "Player 2 Wins!!!" << endl;
@@ -517,7 +560,7 @@ int main()
 
                         printSimpleScoreboardPlayer1VsPlayer2(player1Score, player2Score);
                     }
-                    else if (player1 == 2 && player2 == 1)
+                    else if ((player1Choise == 's' || player1Choise == 'S') && (player2Choise == 'p' || player2Choise == 'P'))
                     {
                         cout << endl;
                         cout << "Player 1 Wins!!!" << endl;
